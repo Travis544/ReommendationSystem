@@ -14,8 +14,8 @@ def getMovie(name):
 
     response = requests.request("GET", url, params=querystring)
     
-    print(response.text)
-    return response
+    print(response)
+    return response.json()
 
 # Create your views here.
 def home(request):
@@ -40,9 +40,25 @@ def selectGenre(request):
 
 def recommendMovies(request):
     if request.method=="POST":
-       # print(request.POST)
-        genre=request.POST['genre']
+        recommendations=["Titanic", "Fight Club" ]
+        default="https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png"
+        result=[]
+        for rec in recommendations:
+           toPut=dict()
+           toPut["name"]=rec
+           response= getMovie(rec)
+           if "Plot" in response:
+              toPut["plot"]=(response["Plot"])
+           else: 
+               toPut["plot"]="Cannot find plot"
+               
+           if "Poster" in response:
+               toPut["image"]=response["Poster"]
+           else:
+               toPut["image"]=default
+               
+           print(response["Poster"])
+           result.append(toPut)
         movieText=request.POST['movieLike']
-        print(genre)
-        print(movieText)
-    return render(request, "recommendations.html")
+
+    return render(request, "recommendations.html", {"recommendations":result})

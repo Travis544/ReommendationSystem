@@ -9,20 +9,33 @@
   }
 
   .one{
-    margin:auto;
+    margin:20px;
     margin-top:20px;
   }
+
+  .con {
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap; 
+    justify-content:center;
+  }
+
 </style>
-<div class="container recommendation" >
+<div class="con">
+{% for r in recommendations %}
+
   <div class="card one" style="width: 18rem;">
     <div class="card-header">
-      <h5 class="card-title">Titanic</h5>
+      <h5 class="card-title">{{r.name}}</h5>
     </div>
-    <img src="https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png" class="card-img-top" alt="Placeholder">
+    <img src="{{r.image}}" class="card-img-top" alt="Placeholder">
     
     <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <p class="card-text">{{r.plot}}</p>
     </div>
   </div>
+
+{% endfor %}
 </div>
+
 {% endblock %}
